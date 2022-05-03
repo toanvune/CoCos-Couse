@@ -10,13 +10,16 @@ cc.Class({
 
     properties: {
         editor: {
-            executionOrder: 2
+            executionOrder: 2,
+            default: null
         },
     },
 
     // LIFE-CYCLE CALLBACKS:
 
-    // onLoad () {},
+    onLoad() {
+        this.editor.executionOrder = 2;
+    },
 
     start() {
         cc.log("xanh: hmmmm");

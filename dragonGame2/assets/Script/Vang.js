@@ -9,20 +9,26 @@ cc.Class({
     extends: cc.Component,
 
     properties: {
-
+        // getVang: {
+        //     default: null,
+        //     type: cc.Component
+        // },
 
         editor: {
-            executionOrder: 0
-
+            executionOrder: 0,
+            default: null
         },
     },
 
     // LIFE-CYCLE CALLBACKS:
 
-    // onLoad () {},
+    onLoad() {
+        this.editor.executionOrder = 0;
+    },
 
     start() {
         cc.log("vang: Hello");
+
     },
 
     update(dt) {

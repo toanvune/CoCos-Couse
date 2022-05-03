@@ -11,14 +11,17 @@ cc.Class({
     properties: {
 
         editor: {
-            executionOrder: 1
+            executionOrder: 1,
+            default: null
 
         },
     },
 
     // LIFE-CYCLE CALLBACKS:
 
-    // onLoad () {},
+    onLoad() {
+        this.editor.executionOrder = 1;
+    },
 
     start() {
         cc.log("trang: Hello");

@@ -10,13 +10,16 @@ cc.Class({
 
     properties: {
         editor: {
-            executionOrder: 3
+            executionOrder: 3,
+            default: null
         },
     },
 
     // LIFE-CYCLE CALLBACKS:
 
-    // onLoad () {},
+    onLoad() {
+        this.editor.executionOrder = 3;
+    },
 
     start() {
         if (this.node.x < 0) {
