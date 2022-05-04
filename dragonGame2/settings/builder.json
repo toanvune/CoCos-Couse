@@ -20,16 +20,6 @@
   "xxteaKey": "cccae5f8-f742-41",
   "zipCompressJs": true,
   "fb-instant-games": {},
-  "android": {
-    "packageName": "org.cocos2d.helloworld"
-  },
-  "ios": {
-    "packageName": "org.cocos2d.helloworld"
-  },
-  "mac": {
-    "packageName": "org.cocos2d.helloworld"
-  },
-  "win32": {},
   "android-instant": {
     "REMOTE_SERVER_ROOT": "",
     "host": "",
@@ -39,5 +29,23 @@
     "scheme": "https",
     "skipRecord": false
   },
-  "appBundle": false
+  "appBundle": false,
+  "wechatgame": {
+    "appid": "wx6ac3f5090a6b99c5",
+    "orientation": "portrait",
+    "REMOTE_SERVER_ROOT": "",
+    "subContext": "",
+    "separate_engine": false
+  },
+  "baidugame": {
+    "appid": "testappid",
+    "orientation": "portrait",
+    "REMOTE_SERVER_ROOT": "",
+    "subContext": ""
+  },
+  "qqplay": {
+    "orientation": "portrait",
+    "zip": false,
+    "REMOTE_SERVER_ROOT": ""
+  }
 }

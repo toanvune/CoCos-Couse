@@ -9,30 +9,31 @@ cc.Class({
     extends: cc.Component,
 
     properties: {
-        // getVang: {
-        //     default: null,
-        //     type: cc.Component
-        // },
+        trang: {
+            default: null,
+            type: cc.Component
+        }
+    },
+    
+    editor: {
+        executionOrder: 0
 
-        editor: {
-            executionOrder: 0,
-            default: null
-        },
     },
 
     // LIFE-CYCLE CALLBACKS:
 
     onLoad() {
-        this.editor.executionOrder = 0;
+        this.trang.node.active = false;
     },
 
     start() {
         cc.log("vang: Hello");
-
+        
     },
 
     update(dt) {
         if (this.node.x > 100) {
+            this.trang.node.active = true;
             return;
         }
         this.node.x += 1;

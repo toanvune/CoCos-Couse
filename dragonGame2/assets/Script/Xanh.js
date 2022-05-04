@@ -9,21 +9,27 @@ cc.Class({
     extends: cc.Component,
 
     properties: {
-        editor: {
-            executionOrder: 2,
-            default: null
+        den: {
+            default: null,
+            type: cc.Component
         },
+    },
+    editor: {
+        executionOrder: 2
     },
 
     // LIFE-CYCLE CALLBACKS:
 
     onLoad() {
-        this.editor.executionOrder = 2;
+        return this.den.node.active = false;
     },
 
     start() {
         cc.log("xanh: hmmmm");
         this.node.runAction(this.jump3Time());
+       
+        this.den.node.active = true;
+        
     },
 
     jump3Time() {

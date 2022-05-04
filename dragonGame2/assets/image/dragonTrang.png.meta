@@ -1,5 +1,5 @@
 {
-  "ver": "2.3.4",
+  "ver": "2.3.3",
   "uuid": "04163433-c2b2-4b3d-b638-e5d08068f9a2",
   "type": "sprite",
   "wrapMode": "clamp",
@@ -7,8 +7,6 @@
   "premultiplyAlpha": false,
   "genMipmaps": false,
   "packable": true,
-  "width": 96,
-  "height": 96,
   "platformSettings": {},
   "subMetas": {
     "dragonTrang": {

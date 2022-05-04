@@ -5,27 +5,30 @@
 // Learn life-cycle callbacks:
 //  - https://docs.cocos.com/creator/manual/en/scripting/life-cycle-callbacks.html
 
+
 cc.Class({
     extends: cc.Component,
 
-    properties: {
-        editor: {
-            executionOrder: 3,
-            default: null
-        },
+    // properties: {
+        
+    // },
+    editor: {
+        executionOrder: 3,
+        
     },
 
     // LIFE-CYCLE CALLBACKS:
 
     onLoad() {
-        this.editor.executionOrder = 3;
+        
     },
 
     start() {
+        cc.log("den: Hello");
         if (this.node.x < 0) {
             return;
         }
-        cc.log("den: Hello");
+        
         let inOut = cc.tween(this.node).repeat(3, this.zoomIn().then(this.zoomOut()));
         inOut.then(this.go100px()).then(this.flipDragon()).then(this.prev100px()).then(this.flipDragon()).start();
     },
