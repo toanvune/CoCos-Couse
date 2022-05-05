@@ -28,12 +28,14 @@ cc.Class({
     start() {
         let users = cc.sys.localStorage.getItem('users');
         cc.log(users);
+        
+        
+    },
+
+    update (dt) {
         if (cc.sys.localStorage.getItem('users') != null) {
             this.scrollView.node.active = true;
             this.btnDelete.node.active = true;
         }
-        
     },
-
-    // update (dt) {},
 });
