@@ -32,6 +32,7 @@ cc.Class({
     },
 
     start() {
+<<<<<<< HEAD
         
        if(data != null) {
             this.renderAllUser();
@@ -75,4 +76,18 @@ cc.Class({
         }
         
     },
+=======
+        let users = cc.sys.localStorage.getItem('users');
+        cc.log(users);
+        
+        
+    },
+
+    update (dt) {
+        if (cc.sys.localStorage.getItem('users') != null) {
+            this.scrollView.node.active = true;
+            this.btnDelete.node.active = true;
+        }
+    },
+>>>>>>> a921b8a607a33c18dafe392a25c8b68c220edca0
 });
