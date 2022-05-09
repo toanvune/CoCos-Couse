@@ -8,7 +8,7 @@
 //  - [Chinese] https://docs.cocos.com/creator/manual/zh/scripting/life-cycle-callbacks.html
 //  - [English] https://www.cocos2d-x.org/docs/creator/manual/en/scripting/life-cycle-callbacks.html
 
-
+let selectedUser = require("selectedUser");
 let data = JSON.parse(cc.sys.localStorage.getItem("users"));
 cc.Class({
     extends: cc.Component,
@@ -16,11 +16,9 @@ cc.Class({
     properties: {
         scrollView: cc.ScrollView,
         btnDelete: cc.Button,
-        toggle: cc.Toggle,
         layout_item: cc.Layout,
         lblItem: cc.Label,
-        parentItem: cc.Layout,
-        
+        parentItem: cc.Layout, 
         prefab_item: cc.Prefab
     },
 
@@ -32,7 +30,12 @@ cc.Class({
     },
 
     start() {
-        
+        if(selectedUser.length > 0) {
+            this.onOrOffBtn(true);
+        } else {
+            this.onOrOffBtn(false);
+        }
+        this.btnDelete.node.on("mousedown", this.onClickDelete, this);
        if(data != null) {
             this.renderAllUser();
             this.onOrOffBtn(false)
@@ -41,17 +44,17 @@ cc.Class({
     },
 
     renderAllUser() {
-        data.forEach((user, index) => {cc.log(this.renderUser(user, index))});
+        data.forEach(user => {cc.log(this.renderUser(user))});
     },
 
-    renderUser(user, index) {
+    renderUser(user) {
         
             let item = cc.instantiate(this.prefab_item);
-            item.name = "pre " + index + 1;
             item.parent = this.parentItem.node;
             item.children[1].getComponent("cc.Label").string = user.username;
             item.children[0].getComponent("cc.Toggle").isChecked = false;
-            item.children[0].getComponent("cc.Toggle").userId = user.id;
+            item.children[0].getComponent("cc.Toggle").user = user;
+            
             return item;
     },
 
@@ -65,6 +68,17 @@ cc.Class({
         this.btnDelete.interactable = value;
     },
 
+    onClickDelete() {
+        this.deleteExecute();
+        cc.sys.localStorage.setItem("users", JSON.stringify(data));
+    },
+
+    deleteExecute() {
+        // let result = [];
+        data = data.filter(({id: id1}) => !selectedUser.some(({id: id2}) => id2 === id1));
+        return data;
+    },
+
     update(dt) {
         data = JSON.parse(cc.sys.localStorage.getItem("users"));
         if (data != null) {
@@ -75,6 +89,11 @@ cc.Class({
             this.hideOrShowBtnDelete(false);
         }
         
+        if(selectedUser.length > 0) {
+            this.onOrOffBtn(true);
+        } else {
+            this.onOrOffBtn(false);
+        }
     },
 
 });
