@@ -11,43 +11,33 @@
 let selectedUser = require("selectedUser");
 
 
-const User = cc.Class({
-    id: "",
-    username: "",
-    password: "",
-    phone: "",
-    ctor () {
-        this.username = "";
-        this.password = "";
-        this.phone = "";
-    }
-});
+const User = require("User");
 
 cc.Class({
     extends: cc.Component,
 
     properties: {
-        
+
     },
 
     // LIFE-CYCLE CALLBACKS:
 
     // onLoad () {},
 
-    start () {
-        
+    start() {
+
     },
 
     onSelected(toggle) {
         let user = new User();
-            user = toggle.user;
+        user = toggle.user;
         if (toggle.isChecked) {
             this.addSelectedUser(user);
         } else {
             this.removeSelectedUser(user);
         }
         //cc.log("selected: ", selectedUser);
-        
+
     },
 
     addSelectedUser(user) {
@@ -57,8 +47,8 @@ cc.Class({
 
     removeSelectedUser(user) {
         let index = selectedUser.indexOf(user)
-            selectedUser.splice(index, 1);
-            return selectedUser;
+        selectedUser.splice(index, 1);
+        return selectedUser;
     }
 
     // update (dt) {},

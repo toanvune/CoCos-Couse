@@ -15,69 +15,44 @@ cc.Class({
     extends: cc.Component,
 
     properties: {
-        
+
         btnDelete: cc.Button,
         layout_item: cc.Layout,
         lblItem: cc.Label,
-        
+
     },
 
     // LIFE-CYCLE CALLBACKS:
 
     onLoad() {
-        // mEE.instance.registerEvent("click_onOrOff", this.onOrOff, this);
-        // this.hideOrShowBtnDelete(false);
-        
+
     },
 
     start() {
-        
-        if(selectedUser.length > 0) {
+
+        if (selectedUser.length > 0) {
             this.onOrOffBtn(true);
         } else {
             this.onOrOffBtn(false);
         }
         this.btnDelete.node.on("mousedown", this.onClickDelete, this);
-       if(data.length > 0) {
-            
+        if (data.length > 0) {
             this.onOrOffBtn(false);
-       }
-       
+        }
+
     },
 
-    
-
-    
-    
-    hideOrShowBtnDelete(value) {
-        this.btnDelete.node.active = value;
-    },
     onOrOffBtn(value) {
         this.btnDelete.interactable = value;
     },
 
     onClickDelete() {
-        this.deleteExecute();
-        cc.sys.localStorage.setItem("users", JSON.stringify(data));
-    },
-
-    deleteExecute() {
-        // let result = [];
-        data = data.filter(({id: id1}) => !selectedUser.some(({id: id2}) => id2 === id1));
-        return data;
+        mEE.instance.emit("DELETE");
     },
 
     update(dt) {
-        
-        if (data.length > 0) {
-            
-            this.hideOrShowBtnDelete(true);
-        } else {
-            
-            this.hideOrShowBtnDelete(false);
-        }
-        
-        if(selectedUser.length > 0) {
+
+        if (selectedUser.length > 0) {
             this.onOrOffBtn(true);
         } else {
             this.onOrOffBtn(false);

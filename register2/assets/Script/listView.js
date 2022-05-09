@@ -9,55 +9,79 @@
 //  - [English] https://www.cocos2d-x.org/docs/creator/manual/en/scripting/life-cycle-callbacks.html
 
 let data = JSON.parse(cc.sys.localStorage.getItem("users"));
+let selectedUser = require("selectedUser");
 const mEE = require("mEmitter");
 cc.Class({
     extends: cc.Component,
 
     properties: {
-        scrollView: cc.ScrollView,
-        parentItem: cc.Layout, 
+        parentItem: cc.Layout,
         prefab_item: cc.Prefab,
+        loading: cc.ProgressBar,
+        text: "cls",
+
     },
 
     // LIFE-CYCLE CALLBACKS:
 
-    onLoad () {
-        this.hideOrShowListUser(false);
-    },
-
-    start () {
+    onLoad() {
         mEE.instance = new mEE();
-        mEE.instance.registerEvent("click_onOrOff", this.onOrOff, this);
-        if(data.length > 0) {
-            this.hideOrShowListUser(true);
-            this.renderAllUser();
-            
-       }
+        mEE.instance.registerEvent("DELETE", this.deleteItem, this);
+        mEE.instance.registerEvent("CREATE", this.addItem, this);
+        cc.log("onLoad: ", this.text);
+
     },
 
-    onOrOff(data) {
-        cc.log(this);
+    start() {
+
+        if (data.length > 0) {
+            // this.hideOrShowListUser(true);
+            this.renderAllUser(data);
+
+        }
     },
+
+    // onOrOff(data) {
+    //     cc.log(this);
+    //     this.hideOrShowListUser(data);
+
+    // },
 
     hideOrShowListUser(value) {
-        this.scrollView.active = value;
+        return this.node.active = value;
     },
 
-    renderAllUser() {
-        data.forEach(user => {cc.log(this.renderUser(user))});
+    renderAllUser(data) {
+        data.forEach(user => { cc.log(this.renderUser(user)) });
     },
 
     renderUser(user) {
-        
-            let item = cc.instantiate(this.prefab_item);
-            item.parent = this.parentItem.node;
-            item.children[1].getComponent("cc.Label").string = user.username;
-            item.children[0].getComponent("cc.Toggle").isChecked = false;
-            item.children[0].getComponent("cc.Toggle").user = user;
-            
-            return item;
+
+        let item = cc.instantiate(this.prefab_item);
+        item.parent = this.parentItem.node;
+        item.children[1].getComponent("cc.Label").string = user.username;
+        item.children[0].getComponent("cc.Toggle").isChecked = false;
+        item.children[0].getComponent("cc.Toggle").user = user;
+
+        return item;
+    },
+
+    addItem(data) {
+        cc.sys.localStorage.setItem("users", JSON.stringify(data));
+    },
+
+    deleteItem() {
+        data = data.filter(({ id: id1 }) => !selectedUser.some(({ id: id2 }) => id2 === id1));
+        cc.sys.localStorage.setItem("users", JSON.stringify(data));
     },
 
 
-    // update (dt) {},
+    // update(dt) {
+    //     let newData = JSON.parse(cc.sys.localStorage.getItem("users"));
+    //     if (data.length != newData.length) {
+    //         data = newData;
+    //         this.loading.node.active = true;
+    //         this.node.active = false;
+    //     }
+    // },
 });

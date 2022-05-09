@@ -20,7 +20,7 @@
 // });
 
 let User = require("User");
-
+const mEE = require("mEmitter");
 const local = JSON.parse(cc.sys.localStorage.getItem("users"));
 
 cc.Class({
@@ -31,22 +31,23 @@ cc.Class({
         edbPassword: cc.EditBox,
         edbPhoneNumber: cc.EditBox,
         btnRegister: cc.Button,
+        loadingScene: cc.Component,
         users: [],
     },
 
     // LIFE-CYCLE CALLBACKS:
 
-    onLoad () {
-        if(local != null) {
+    onLoad() {
+        if (local != null) {
             this.users = local;
-            
+
         }
         cc.log(local);
     },
 
     start() {
         this.btnRegister.node.on("click", this.clickRegister, this);
-        
+
     },
 
     textDone() {
@@ -56,28 +57,27 @@ cc.Class({
     },
 
     clickRegister() {
-        
-            let u = new User();
-            u.id = this.users.length + 1;
-            u.username = this.edbUsername.string;
-            u.password = this.edbPassword.string;
-            u.phone = this.edbPhoneNumber.string;
-            
-            if(this.edbUsername.string != "" && this.edbPassword.string != "" && this.edbPhoneNumber.string != "") {
-                this.addUserToLocalStorage(u);
-                this.edbUsername.string = "";
-                this.edbPassword.string = "";
-                this.edbPhoneNumber.string = "";               
-            }
-            
-            this.textDone();
+        this.getInfoUserAndPushToArray();
+        mEE.instance.emit("CREATE", this.users);
+        // this.loadingScene.node.active = true;   
     },
 
-    addUserToLocalStorage(u) {
-        this.users.push(u);
-        cc.sys.localStorage.setItem("users", JSON.stringify(this.users));
-    },
+    getInfoUserAndPushToArray() {
+        let u = new User();
+        u.id = this.users.length + 1;
+        u.username = this.edbUsername.string;
+        u.password = this.edbPassword.string;
+        u.phone = this.edbPhoneNumber.string;
 
+        if (this.edbUsername.string != "" && this.edbPassword.string != "" && this.edbPhoneNumber.string != "") {
+            this.users.push(u);
+            this.edbUsername.string = "";
+            this.edbPassword.string = "";
+            this.edbPhoneNumber.string = "";
+        }
+
+        this.textDone();
+    }
 
     // update (dt) {
 
