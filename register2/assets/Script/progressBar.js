@@ -7,7 +7,7 @@
 // Learn life-cycle callbacks:
 //  - [Chinese] https://docs.cocos.com/creator/manual/zh/scripting/life-cycle-callbacks.html
 //  - [English] https://www.cocos2d-x.org/docs/creator/manual/en/scripting/life-cycle-callbacks.html
-
+const mEE = require("mEmitter");
 cc.Class({
     extends: cc.Component,
 
@@ -17,7 +17,8 @@ cc.Class({
         _pauseUpdate: true
     },
 
-    loading(dt) {
+    loading() {
+        // this.node.active = true
         this._pauseUpdate = false
         this.schedule(() => {
             this.getLoading.progress += 1 / 30
@@ -31,13 +32,14 @@ cc.Class({
     },
 
     start() {
-
+        // this.load = this.loading.bind(this);
+        // mEE.instance.registerEvent("DELETELOADING", this.load, this);
     },
 
     update(dt) {
         if (this.node.active) {
             if (this._pauseUpdate)
-                this.loading(dt)
+                this.loading()
         }
     },
 });

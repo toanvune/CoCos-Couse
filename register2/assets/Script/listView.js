@@ -19,14 +19,15 @@ cc.Class({
         prefab_item: cc.Prefab,
         loading: cc.ProgressBar,
         text: "cls",
-
+        
     },
 
     // LIFE-CYCLE CALLBACKS:
 
     onLoad() {
+        this.dltItem = this.deleteItem.bind(this);
         mEE.instance = new mEE();
-        mEE.instance.registerEvent("DELETE", this.deleteItem, this);
+        mEE.instance.registerEvent("DELETE", this.dltItem, this);
         mEE.instance.registerEvent("CREATE", this.addItem, this);
         cc.log("onLoad: ", this.text);
 
@@ -71,15 +72,19 @@ cc.Class({
     },
 
     deleteItem() {
+        // cc.log(this.node)
+        
         data = data.filter(({ id: id1 }) => !selectedUser.some(({ id: id2 }) => id2 === id1));
         cc.sys.localStorage.setItem("users", JSON.stringify(data));
+        // mEE.instance.emit("DELETELOADING", this.list);
+        // this.node.active = false
     },
 
 
     // update(dt) {
-    //     let newData = JSON.parse(cc.sys.localStorage.getItem("users"));
-    //     if (data.length != newData.length) {
-    //         data = newData;
+        
+    //     if (data.length != this.newData.length) {
+    //         data = this.newData;
     //         this.loading.node.active = true;
     //         this.node.active = false;
     //     }
