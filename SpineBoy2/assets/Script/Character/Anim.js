@@ -11,9 +11,7 @@ const Anim = cc.Class({
         let anim = character.setAnimation(0, "jump", false);
         return anim;
     },
-    pauseAnim(character){
-        character.pause;
-    }
+
 });
 
 module.exports = Anim;

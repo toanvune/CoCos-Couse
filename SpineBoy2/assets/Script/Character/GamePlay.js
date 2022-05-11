@@ -19,12 +19,12 @@ cc.Class({
 
     // LIFE-CYCLE CALLBACKS:
 
-    onLoad () {
+    onLoad() {
         emitter.instance = new emitter();
         cc.log(action);
         this.btnPlay.node.on("click", this.onPlay, this);
-        cc.systemEvent.on("keydown", this.checkEvent, this);
-        cc.systemEvent.on("keyup", this.checkEventKeyUp, this);
+        cc.systemEvent.on("keydown", this.onKeyDown, this);
+        cc.systemEvent.on("keyup", this.onKeyUp, this);
 
         this.spinBoy.node.active = false;
         this.creep1.node.active = false;
@@ -33,74 +33,106 @@ cc.Class({
         this.door.node.active = false;
     },
 
-    checkEventKeyUp(event) {
-        switch(event.keyCode) {
-            case 37: {
-                this.spinBoy.node.stopAction();
-                anim.doDefault(this.spinBoy);
-                break;
-            }
-            case 38: {
-                if(this.spinBoy.node.y > 1){
+    onKeyUp(event) {
+        switch (event.keyCode) {
+            case 37:
+                {
+                    this.flag = true;
+                    this.spinBoy.node.stopAction();
+                    anim.doDefault(this.spinBoy);
+
+                    //cc.log("up: ", this.flag)
                     break;
                 }
-            
+            case 38:
+                {
+                    this.spinBoy.setCompleteListener(() => {
+                        this.flag = true;
+                        anim.doDefault(this.spinBoy);
+                    });
+                    //cc.log("up: ", this.flag)
+                    break;
+                }
+            case 39:
+                {
+                    this.flag = true;
+                    this.spinBoy.node.stopAction();
+
+                    anim.doDefault(this.spinBoy);
+
+                    //cc.log("up: ", this.flag)
+                    break;
+                }
+            case 40:
+                {
+                    //this.flag = true;
+                    break;
+                }
+            default:
                 break;
-            }
-            case 39: {
-                
-                this.spinBoy.node.stopAction();
-                anim.doDefault(this.spinBoy);
-                break;
-            }
-            case 40: {
-                
-                break;
-            }
-            default: break;
         }
     },
 
-    checkEvent(event) {
-        switch(event.keyCode) {
-            case 37: {
-                if(this.spinBoy.node.x < 1) {
+    onKeyDown(event) {
+        switch (event.keyCode) {
+            case 37:
+                {
+                    if (this.spinBoy.node.x < 1) {
+                        break;
+                    }
+                    if (this.spinBoy.node.scaleX > 0) {
+                        this.spinBoy.node.scaleX *= -1;
+                    }
+
+                    this.spinBoy.node.runAction(action.moveLeft());
+                    if (this.flag) {
+                        this.flag = false;
+                        anim.doRun(this.spinBoy);
+                        //cc.log("down: ", this.flag)
+                    }
+
+                    //emitter.instance.emit("KEYDOWN_LEFT", this.spinBoy)
                     break;
                 }
-                if(this.spinBoy.node.scaleX > 0) {
-                    this.spinBoy.node.scaleX *= -1;
-                }
-                if(!this.flag)
-                this.spinBoy.node.runAction(action.moveLeft());
-                anim.doRun(this.spinBoy);
-                //emitter.instance.emit("KEYDOWN_LEFT", this.spinBoy)
-                break;
-            }
-            case 38: {
-                
-                if(this.spinBoy.node.y > 1){
+            case 38:
+                {
+
+                    if (this.spinBoy.node.y > 0) {
+                        break;
+                    }
+                    if (this.flag) {
+                        this.flag = false;
+                        this.spinBoy.node.runAction(action.jumpOn());
+                        anim.doJump(this.spinBoy);
+                        //cc.log("down: ", this.flag)
+                    }
+
                     break;
                 }
-                //this.spinBoy.node.runAction(action.jumpOn());
-                anim.doJump(this.spinBoy);
-                break;
-            }
-            case 39: {
-                if(this.spinBoy.node.x > 740) {
+            case 39:
+                {
+                    if (this.spinBoy.node.x > 740) {
+                        break;
+                    }
+                    if (this.spinBoy.node.scaleX < 0) {
+                        this.spinBoy.node.scaleX *= -1;
+                    }
+                    this.spinBoy.node.runAction(action.moveRight());
+                    if (this.flag) {
+                        this.flag = false;
+                        anim.doRun(this.spinBoy);
+
+                    }
+                    cc.log("down: ", this.flag)
                     break;
                 }
-                if(this.spinBoy.node.scaleX < 0) {
-                    this.spinBoy.node.scaleX *= -1;
+            case 40:
+                {
+                    cc.log("event: down");
+                    break;
                 }
-                this.spinBoy.node.runAction(action.moveRight());
-                anim.doRun(this.spinBoy);
+            default:
                 break;
-            }
-            case 40: {
-                cc.log("event: down");
-                break;
-            }
-            default: break;
         }
     },
 
@@ -116,7 +148,7 @@ cc.Class({
         });
     },
 
-    start () {
+    start() {
 
     },
 
